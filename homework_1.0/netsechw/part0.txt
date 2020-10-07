@@ -1,0 +1,29 @@
+# Which IP address had a web server without encryption open on the default HTTP port?
+# (tcp.port == 80 || udp.port == 80) && ip.dst == 169.125.5.2
+188.136.176.2
+
+# What is the hardware/MAC address of the attacker doing the scan? 
+00:50:5b:99:73:eb
+
+# This is the hardware/MAC address of the interface where this pcap was captured?
+00:50:b7:4d:af:87
+
+# How many NTP servers were discovered that were each running NTP on the default
+# TCP/UDP port? 
+# (tcp.port == 123 || udp.port == 123) && (ip.dst == 169.125.5.2) && !(icmp >= "Destination unreachable")
+2
+
+# What machine had port 1337 open?
+# (tcp.port == 1337 || udp.port == 1337) && ip.dst == 169.125.5.2
+150.114.84.1
+
+# Two raw sequence numbers tied for being the most common raw sequence numbers in this
+# pcap.  What is the larger of these two numbers? 
+N
+
+# How many of the scanned machines were listening on port 22, i.e., it was open?
+# (tcp.port == 22 || udp.port == 22) && (ip.dst == 169.125.5.2) && !(icmp >= "Destination unreachable")
+5
+
+# What machine looks like it's up and running a tftp server on a UDP port?
+N.N.N.N

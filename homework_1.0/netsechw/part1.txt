@@ -1,0 +1,20 @@
+# What is the IP address of the web server?
+N.N.N.N
+# What version of lighttpd is being run on the web server? (only dots and numbers)
+N
+# How many IP addresses that were vertically scanned were Linux machines?
+N
+# Which IP address that was vertically scanned was a VMWare gateway?
+N
+# What is the MAC address of that VMWare gateway?
+N
+# There's a router in between the attacker's gateway router where the pcap was
+# captured and the web server.  That router has an IP address that is not on
+# the same subnet as the web server on an interface that connects it to the
+# attacker's gateway.  What is that IP?  The attacker is the machine that
+# performed the scan.
+N.N.N.N
+# How many ARP frames appear in the vertical scan pcap?
+N
+# What is the most common TTL to appear for all IP packets in the vertical scan pcap?
+N
