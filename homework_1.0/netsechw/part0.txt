@@ -19,11 +19,11 @@
 
 # Two raw sequence numbers tied for being the most common raw sequence numbers in this
 # pcap.  What is the larger of these two numbers? 
-N
+3714604571
 
 # How many of the scanned machines were listening on port 22, i.e., it was open?
 # (tcp.port == 22 || udp.port == 22) && (ip.dst == 169.125.5.2) && !(icmp >= "Destination unreachable")
 5
 
 # What machine looks like it's up and running a tftp server on a UDP port?
-N.N.N.N
+188.136.176.3
