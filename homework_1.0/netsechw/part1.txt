@@ -20,7 +20,7 @@ DO NOT ANSWER
 # the same subnet as the web server on an interface that connects it to the
 # attacker's gateway.  What is that IP?  The attacker is the machine that
 # performed the scan.
-N.N.N.N
+169.125.5.1
 
 # How many ARP frames appear in the vertical scan pcap?
 # arp
