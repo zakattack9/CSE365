@@ -1,10 +1,12 @@
 # What is the IP address of the patsy/zombie used for this TCP/IP side channel scan?
-N.N.N.N
+188.136.176.2
+
 # What is the most common destination port for packets in this capture?
-N
-# What is the hardware/MAC address of the gateway router where this packet capture was
-# captured?
-HH:HH:HH:HH:HH:HH
-# What live IP address did the attacker discover that wasn't discovered during the
-# horizontal scan? 
-N.N.N.N
+22
+
+# What is the hardware/MAC address of the gateway router where this packet capture was captured?
+00:50:0b:29:a3:9b
+
+# What live IP address did the attacker discover that wasn't discovered during the horizontal scan? 
+# ip.src == 188.136.176.2 && tcp.flags.syn==0 && tcp.flags.ack==1
+169.125.5.79
