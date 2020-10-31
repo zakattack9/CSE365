@@ -2,14 +2,14 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <map>
+#include <utility>
 #include <vector>
 
 using namespace std;
 
-map<string, string> parseDict(ifstream& dictFile);
-map<string, string> searchPrefix(map<string, string> dict);
-void printDict(map<string, string> dict, int maxWords);
+vector<pair<string, string>> parseDict(ifstream& dictFile);
+vector<pair<string, string>> searchPrefix(vector<pair<string, string>> dict, string prefix);
+void printDict(vector<pair<string, string>> dict, int maxWords);
 
 void error(string msg) {
   printf("Error: %s\n", msg.c_str());
@@ -46,12 +46,12 @@ int main(int args, char *argv[]) {
   ifstream dictFile(dictFileName.c_str());
   if (!dictFile) error("invalid filename provided");
 
-  map<string, string> dict = parseDict(dictFile);
+  vector<pair<string, string>> dict = parseDict(dictFile);
   printf("dictionary.txt has %d words.\n", (int) dict.size());
 
   if (!prefix.empty()) {
-    map<string, string> prefixDict = searchPrefix(dict);
-    int maxWords = numResults || prefixDict.size();
+    vector<pair<string, string>> prefixDict = searchPrefix(dict, prefix);
+    int maxWords = numResults ? numResults : prefixDict.size();
     printDict(prefixDict, maxWords);
   }
 
@@ -59,25 +59,39 @@ int main(int args, char *argv[]) {
 }
 
 // a Trie DS could be used here instead of a map for faster prefix search times
-map<string, string> parseDict(ifstream &dictFile) {
-  map<string, string> dict;
+vector<pair<string, string>> parseDict(ifstream &dictFile) {
+  vector<pair<string, string>> dict;
   string word;
   while (getline(dictFile, word, ':')) {
     string definition;
     getline(dictFile, definition, '\n');
     if (!word.empty() && !definition.empty()) {
-      dict[word] = definition;
+      if (definition[0] == ' ') definition.erase(0, 1); // remove space after :
+      dict.push_back(make_pair(word, definition));
     }
   }
   return dict;
 }
 
-map<string, string> searchPrefix(map<string, string> dict) {
-  map<string, string> prefixDict;
-
+vector<pair<string, string>> searchPrefix(vector<pair<string, string>> dict, string prefix) {
+  vector<pair<string, string>> prefixDict;
+  for (auto entry : dict) {
+    bool isPrefix = true;
+    for (int i = 0; i < prefix.length(); i++) {
+      if (get<0>(entry)[i] != prefix[i]) {
+        isPrefix = false;
+        break;
+      }
+    }
+    if (isPrefix) prefixDict.push_back(entry);
+  }
   return prefixDict;
 }
 
-void printDict(map<string, string> dict, int maxWords) {
-  
+void printDict(vector<pair<string, string>> dict, int maxWords) {
+  for (int i = 0; i < maxWords; i++) {
+    printf("%s: %s\n", get<0>(dict[i]).c_str(), get<1>(dict[i]).c_str());
+  }
 }
+
+// g++ dict.cpp -g -O1 -o dict
