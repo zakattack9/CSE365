@@ -27,7 +27,7 @@ int main(int args, char *argv[]) {
   string searchWord;
   string replaceWord;
   string editorPath;
-  int numResults = 0;
+  int numResults = -1;
 
   for (int i = 1; i < args; i++) {
     string arg = argv[i];
@@ -46,7 +46,7 @@ int main(int args, char *argv[]) {
 
   if (!prefix.empty()) {
     vector<pair<string, string>> prefixDict = searchPrefix(dict, prefix);
-    int maxWords = numResults ? numResults : prefixDict.size();
+    int maxWords = numResults < prefixDict.size() && numResults >= 0 ? numResults : prefixDict.size();
     printDict(prefixDict, maxWords);
   }
 
@@ -77,8 +77,9 @@ vector<pair<string, string>> parseDict(string dictFileName) {
   while (getline(dictFile, word, ':')) {
     string definition;
     getline(dictFile, definition, '\n');
-    if (!word.empty() && !definition.empty()) {
-      if (definition[0] == ' ') definition.erase(0, 1); // remove space after :
+    regex onlySpaces("^\\s*$");
+    if (!regex_match(word, onlySpaces) && !regex_match(definition, onlySpaces)) {
+      definition = regex_replace(definition, regex("^\\s*"), ""); // remove space(s) after :
       dict.push_back(make_pair(word, definition));
     }
   }
@@ -122,8 +123,6 @@ void writeDict(vector<pair<string, string>> dict, string dictFileName) {
 
 void spawnEditor(string editorPath, string dictFileName) {
   filterPath(editorPath);
-  
-
   string execCmd = editorPath + " " + dictFileName;
   int statCode = system(execCmd.c_str());
 }
