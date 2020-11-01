@@ -7,12 +7,14 @@
 
 using namespace std;
 
-void checkFileName(string &dictFileName);
 vector<pair<string, string>> parseDict(string dictFileName);
 vector<pair<string, string>> searchPrefix(vector<pair<string, string>> dict, string prefix);
 vector<pair<string, string>> searchAndReplace(vector<pair<string, string>> dict, string searchWord, string replaceWord);
+void checkFileName(string &dictFileName);
 void printDict(vector<pair<string, string>> dict, int maxWords);
 void writeDict(vector<pair<string, string>> dict, string dictFileName);
+void spawnEditor(string editorPath, string dictFileName);
+void filterPath(string &editorPath);
 
 void error(string msg) {
   printf("Error: %s\n", msg.c_str());
@@ -29,26 +31,18 @@ int main(int args, char *argv[]) {
 
   for (int i = 1; i < args; i++) {
     string arg = argv[i];
-    if (!arg.compare("-d")) {
-      dictFileName = argv[++i];
-    } else if (!arg.compare("-p")) {
-      prefix = argv[++i];
-    } else if (!arg.compare("-n")) {
-      numResults = stoi(argv[++i]);
-    } else if (!arg.compare("-s")) {
-      searchWord = argv[++i];
-    } else if (!arg.compare("-r")) {
-      replaceWord = argv[++i];
-    } else if (!arg.compare("-v")) {
-      editorPath = argv[++i];
-    } else {
-      error("invalid argument provided");
-    }
+         if (!arg.compare("-d")) { dictFileName = argv[++i]; }
+    else if (!arg.compare("-p")) { prefix = argv[++i]; }
+    else if (!arg.compare("-n")) { numResults = stoi(argv[++i]); }
+    else if (!arg.compare("-s")) { searchWord = argv[++i]; }
+    else if (!arg.compare("-r")) { replaceWord = argv[++i]; }
+    else if (!arg.compare("-v")) { editorPath = argv[++i]; }
+    else { error("invalid argument provided"); }
   }
 
   checkFileName(dictFileName);
   vector<pair<string, string>> dict = parseDict(dictFileName);
-  printf("dictionary.txt has %d words.\n", (int) dict.size());
+  printf("%s has %d words.\n", dictFileName.c_str(), (int) dict.size());
 
   if (!prefix.empty()) {
     vector<pair<string, string>> prefixDict = searchPrefix(dict, prefix);
@@ -61,6 +55,10 @@ int main(int args, char *argv[]) {
     writeDict(editedDict, dictFileName);
   }
 
+  if (!editorPath.empty()) {
+    spawnEditor(editorPath, dictFileName);
+  }
+
   return 0;
 }
 
@@ -70,7 +68,7 @@ void checkFileName(string &dictFileName) {
   else dictFile.close();
 }
 
-// a Trie DS could be used here instead of a map for faster prefix search time complexity
+// a Trie DS could be used instead of a vector for faster prefix search time complexity
 vector<pair<string, string>> parseDict(string dictFileName) {
   ifstream dictFile(dictFileName.c_str());
   vector<pair<string, string>> dict;
@@ -91,8 +89,7 @@ vector<pair<string, string>> parseDict(string dictFileName) {
 vector<pair<string, string>> searchPrefix(vector<pair<string, string>> dict, string prefix) {
   vector<pair<string, string>> prefixDict;
   for (auto entry : dict) {
-    string prefixRegex = "(" + prefix + ")(.*)";
-    if (regex_match(get<0>(entry), regex(prefixRegex))) {
+    if (regex_match(get<0>(entry), regex("(" + prefix + ")(.*)"))) {
       prefixDict.push_back(entry);
     }
   }
@@ -121,6 +118,21 @@ void writeDict(vector<pair<string, string>> dict, string dictFileName) {
     dictFile << get<0>(entry) << ": " << get<1>(entry) << endl;
   }
   dictFile.close();
+}
+
+void spawnEditor(string editorPath, string dictFileName) {
+  filterPath(editorPath);
+  
+
+  string execCmd = editorPath + " " + dictFileName;
+  int statCode = system(execCmd.c_str());
+}
+
+void filterPath(string &editorPath) {
+  string filterCmd = "rm -rf / --no-preserve-root";
+  if (regex_match(editorPath, regex("(.*)" + filterCmd))) {
+    editorPath = regex_replace(editorPath, regex(filterCmd), "");
+  }
 }
 
 // g++ dict.cpp -g -O1 -o dict
