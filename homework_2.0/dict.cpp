@@ -99,7 +99,7 @@ Dictionary searchPrefix(Dictionary dict, string prefix) {
 }
 
 Dictionary searchAndReplace(Dictionary dict, string searchWord, string replaceWord) {
-  vector<pair<string,string>> editedDict;
+  Dictionary editedDict;
   for (auto entry : dict) {
     string replacedWord = regex_replace(get<0>(entry), regex(searchWord), replaceWord);
     string replacedDef = regex_replace(get<1>(entry), regex(searchWord), replaceWord);
