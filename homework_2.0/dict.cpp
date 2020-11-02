@@ -90,7 +90,7 @@ Dictionary parseDict(string dictFileName) {
 
 Dictionary searchPrefix(Dictionary dict, string prefix) {
   Dictionary prefixDict;
-  for (auto entry : dict) {
+  for (auto &entry : dict) {
     if (regex_match(get<0>(entry), regex("(" + prefix + ")(.*)"))) {
       prefixDict.push_back(entry);
     }
@@ -100,7 +100,7 @@ Dictionary searchPrefix(Dictionary dict, string prefix) {
 
 Dictionary searchAndReplace(Dictionary dict, string searchWord, string replaceWord) {
   Dictionary editedDict;
-  for (auto entry : dict) {
+  for (auto &entry : dict) {
     string replacedWord = regex_replace(get<0>(entry), regex(searchWord), replaceWord);
     string replacedDef = regex_replace(get<1>(entry), regex(searchWord), replaceWord);
     editedDict.push_back(make_pair(replacedWord, replacedDef));
@@ -116,7 +116,7 @@ void printDict(Dictionary dict, int maxWords) {
 
 void writeDict(Dictionary dict, string dictFileName) {
   ofstream dictFile(dictFileName.c_str());
-  for (auto entry : dict) dictFile << get<0>(entry) + ": " + get<1>(entry) << endl;
+  for (auto &entry : dict) dictFile << get<0>(entry) + ": " + get<1>(entry) << endl;
   dictFile.close();
 }
 
