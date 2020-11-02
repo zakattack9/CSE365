@@ -22,7 +22,7 @@ void error(string msg) {
   exit(1);
 }
 
-int main(int args, char *argv[]) {
+int main(int argc, char *argv[]) {
   string dictFileName = "dictionary.txt";
   string prefix;
   string searchWord;
@@ -30,7 +30,7 @@ int main(int args, char *argv[]) {
   string editorPath;
   int numResults = -1;
 
-  for (int i = 1; i < args; i++) {
+  for (int i = 1; i < argc; i++) {
     string arg = argv[i];
          if (!arg.compare("-d")) { dictFileName = argv[++i]; }
     else if (!arg.compare("-p")) { prefix = argv[++i]; }
