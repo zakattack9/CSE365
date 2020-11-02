@@ -7,12 +7,13 @@
 
 using namespace std;
 
-vector<pair<string, string>> parseDict(string dictFileName);
-vector<pair<string, string>> searchPrefix(vector<pair<string, string>> dict, string prefix);
-vector<pair<string, string>> searchAndReplace(vector<pair<string, string>> dict, string searchWord, string replaceWord);
+typedef vector<pair<string, string>> Dictionary;
+Dictionary parseDict(string dictFileName);
+Dictionary searchPrefix(Dictionary dict, string prefix);
+Dictionary searchAndReplace(Dictionary dict, string searchWord, string replaceWord);
 void checkFileName(string &dictFileName);
-void printDict(vector<pair<string, string>> dict, int maxWords);
-void writeDict(vector<pair<string, string>> dict, string dictFileName);
+void printDict(Dictionary dict, int maxWords);
+void writeDict(Dictionary dict, string dictFileName);
 void spawnEditor(string editorPath, string dictFileName);
 void filterPath(string &editorPath);
 
@@ -41,17 +42,17 @@ int main(int args, char *argv[]) {
   }
 
   checkFileName(dictFileName);
-  vector<pair<string, string>> dict = parseDict(dictFileName);
+  Dictionary dict = parseDict(dictFileName);
   printf("%s has %d words.\n", dictFileName.c_str(), (int) dict.size());
 
   if (!prefix.empty()) {
-    vector<pair<string, string>> prefixDict = searchPrefix(dict, prefix);
+    Dictionary prefixDict = searchPrefix(dict, prefix);
     int maxWords = numResults < prefixDict.size() && numResults >= 0 ? numResults : prefixDict.size();
     printDict(prefixDict, maxWords);
   }
 
   if (!searchWord.empty() && !replaceWord.empty()) {
-    vector<pair<string, string>> editedDict = searchAndReplace(dict, searchWord, replaceWord);
+    Dictionary editedDict = searchAndReplace(dict, searchWord, replaceWord);
     writeDict(editedDict, dictFileName);
   }
 
@@ -69,10 +70,10 @@ void checkFileName(string &dictFileName) {
 }
 
 // a Trie DS could be used instead of a vector for faster prefix search time complexity
-vector<pair<string, string>> parseDict(string dictFileName) {
+Dictionary parseDict(string dictFileName) {
   ifstream dictFile(dictFileName.c_str());
-  vector<pair<string, string>> dict;
-  
+  Dictionary dict;
+
   string word;
   while (getline(dictFile, word, ':')) {
     string definition;
@@ -87,8 +88,8 @@ vector<pair<string, string>> parseDict(string dictFileName) {
   return dict;
 }
 
-vector<pair<string, string>> searchPrefix(vector<pair<string, string>> dict, string prefix) {
-  vector<pair<string, string>> prefixDict;
+Dictionary searchPrefix(Dictionary dict, string prefix) {
+  Dictionary prefixDict;
   for (auto entry : dict) {
     if (regex_match(get<0>(entry), regex("(" + prefix + ")(.*)"))) {
       prefixDict.push_back(entry);
@@ -97,7 +98,7 @@ vector<pair<string, string>> searchPrefix(vector<pair<string, string>> dict, str
   return prefixDict;
 }
 
-vector<pair<string, string>> searchAndReplace(vector<pair<string, string>> dict, string searchWord, string replaceWord) {
+Dictionary searchAndReplace(Dictionary dict, string searchWord, string replaceWord) {
   vector<pair<string,string>> editedDict;
   for (auto entry : dict) {
     string replacedWord = regex_replace(get<0>(entry), regex(searchWord), replaceWord);
@@ -107,17 +108,15 @@ vector<pair<string, string>> searchAndReplace(vector<pair<string, string>> dict,
   return editedDict;
 }
 
-void printDict(vector<pair<string, string>> dict, int maxWords) {
+void printDict(Dictionary dict, int maxWords) {
   for (int i = 0; i < maxWords; i++) {
     printf("%s: %s\n", get<0>(dict[i]).c_str(), get<1>(dict[i]).c_str());
   }
 }
 
-void writeDict(vector<pair<string, string>> dict, string dictFileName) {
+void writeDict(Dictionary dict, string dictFileName) {
   ofstream dictFile(dictFileName.c_str());
-  for (auto entry : dict) {
-    dictFile << get<0>(entry) << ": " << get<1>(entry) << endl;
-  }
+  for (auto entry : dict) dictFile << get<0>(entry) + ": " + get<1>(entry) << endl;
   dictFile.close();
 }
 
