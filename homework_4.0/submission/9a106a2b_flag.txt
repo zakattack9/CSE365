@@ -1,0 +1,1 @@
+Hello WorldProgram Name Is: /var/challenge/9a106a2b/dict Number Of Arguments Passed: 3 ----Following Are The Command Line Arguments Passed---- argv[0]: /var/challenge/9a106a2b/dict argv[1]: -p argv[2]: flag dictionary.txt has 1 words.

@@ -1,0 +1,1 @@
+dictionary.txt has 3 words.

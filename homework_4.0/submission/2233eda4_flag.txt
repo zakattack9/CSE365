@@ -1,0 +1,1 @@
+dictionary.txt has 3 words. English: the language of England, widely used in many varieties throughout the world.

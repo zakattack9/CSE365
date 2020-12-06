@@ -1,0 +1,30 @@
+#!/bin/bash
+# script used to automate retrieval of flags from challenges
+
+for i in /var/challenge/*; do 
+  echo $i
+  rm dictionary.txt
+  ln -s $i/flag dictionary.txt
+  output=`timeout 1s $i/dict -p flag`
+  if [[ $output == *"flag: "* ]]; then
+    parsed=${output#*flag:}
+  elif [[ $output == *"flag - "* ]]; then
+    parsed=${output#*flag -}
+  elif [[ $output == *"flag{"* ]]; then
+    parsed=${output#*flag{}
+    parsed=${parsed::-1}
+  elif [[ $output == *"flag "* ]]; then
+    parsed=${output#*flag}
+  else
+    parsed=$output
+  fi
+
+  if [[ ! -z "$parsed" ]]; then
+    challenge_id=${i##*/}
+    parsed=${parsed## }
+    parsed=${parsed%% }
+    echo "FLAG: $parsed"
+    echo $parsed > "flags/${challenge_id}_flag.txt"
+  fi
+done
+        

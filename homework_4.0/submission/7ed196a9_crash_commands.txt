@@ -1,0 +1,1 @@
+for i in /var/challenge/*; do rm dictionary.txt; ln -s $i/flag dictionary.txt; timeout 2s $i/dict -p flag; done

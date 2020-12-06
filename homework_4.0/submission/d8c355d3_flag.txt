@@ -1,0 +1,1 @@
+0 | /var/challenge/d8c355d3/dict 1 | -p 2 | flag dictionary.txt has 1 words.
