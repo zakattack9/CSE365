@@ -1,0 +1,27 @@
+3626-bin,1,Skip to content,
+3626-bin,2,Search for:,
+3626-bin,3,[Trend Micro 2016] [Misc 100 – PCAP] Write Up,
+3626-bin,4,"July 31, 2016 runn3r Leave a comment",
+3626-bin,5,Please analyze this pcap.,
+3626-bin,6,Download the file,
+3626-bin,7,Decrypt the downloaded file by the following command.,(I)
+3626-bin,8,> openssl enc -d -aes-256-cbc -k gcCbBJN5pIHiL8JiJ8Xj -in files21.enc -out files21_ok.zip,(A) 7
+3626-bin,9,We can see a telnet session in the pcap file.,(I)
+3626-bin,10,The telnet session is a configuration made by an system admin on a remote machine.,(I)
+3626-bin,11,Login and password of the administrator are :,(I)
+3626-bin,12,We can see that the admin configures ESP protocol on the remote machine :,(I)
+3626-bin,13,And it's a good news because we have encrypted ESP packets in our PCAP file !,(A) 12
+3626-bin,14,Now we have data in clear text in wireshark.,(I)
+3626-bin,15,"We see HTTP request with a file 'flag.png', it's our flag !",(A) 14
+3626-bin,16,#2016#ctf#write-up#writeup #post-2681,
+3626-bin,17,Leave a Reply Cancel replyYour email address will not be published,
+3626-bin,18,Required fields are marked *Comment Name *,
+3626-bin,19,"Save my name, email, and website in this browser for the next time I comment.",
+3626-bin,20,#respond,
+3626-bin,21,Hack The Vote,
+3626-bin,22,Google Capture The Flag,
+3626-bin,23,[SigSegV2 Finals] [Forensics 500 – 10 questions about my system] Write Up,
+3626-bin,24,[SigSegV2 Finals] [Forensics 500 – Je rim et je ram] Write Up,
+3626-bin,25,[ECSC Quals 2019] [Crypto 144 – 2tp] Write Up,
+3626-bin,26,[ECSC Quals 2019] [Misc 102 – qrcode] Write Up,
+3626-bin,27,Proudly powered by WordPress,

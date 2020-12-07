@@ -1,0 +1,25 @@
+9986-bin,1,Compare,
+9986-bin,2,Create new team,
+9986-bin,3,Get team members,
+9986-bin,4,Contact us,
+9986-bin,5,Sign in,
+9986-bin,6,**This writeup proposes a method to craft payload in one request and get fmac,(I)
+9986-bin,7,"Please pay attention that,",
+9986-bin,8,"1, The length of the cmd matters because padding string can be \t \r \x0b \x0c etc",(I)
+9986-bin,9,Command with length of 16 is OK.,(I)
+9986-bin,10,"2, This writeup can be considered as a supplement to existing writeups.",
+9986-bin,11,We build 257 16-bytes blocks in total,"(A) 8,9"
+9986-bin,12,The 2nd and 3rd blocks are padding of the whole blocks,(I)
+9986-bin,13,The 1st block can be xored with the 257th block,(I)
+9986-bin,14,The 4th - 128th blocks can be xored with 132th - 256th blocks,(I)
+9986-bin,15,"So we have 129th - 131th blocks left, which corresponds to keys used for 1st - 3rd blocks",(I)
+9986-bin,16,Thus we can break the system and get the flag.,"(A) 12,13,14,15"
+9986-bin,17,block = 'a' * 16print s.recv(1024)while True:    cmd = raw_input()      cmd_padding = cmd + '\x00' * 15 + chr(len(cmd))    cmd_padding += chr(16 - len(cmd_padding) % 16) * (16 - len(cmd_padding) % 16)    block_padding = '\x00' * 14 + '\x10\x10'    block_padding += '\x10' * 16    data = 'tag ' + block + block_padding    for i in range(125):        data = data + block    data += cmd_padding    for i in range(126):        data = data + block    s.send('aa<|>'+data+'\n')    mac = s.recv(1024)[:32]    print mac    s.send(mac + '<|>'+ cmd +'\n')    print s.recv(4096)```,"(A) 12,13,14,15"
+9986-bin,18,Go to www.addthis.com/dashboard to customize your tools,
+9986-bin,19,Sign in with,
+9986-bin,20,I don't remember,
+9986-bin,21,Follow @CTFtime,
+9986-bin,22,© 2012 — 2020 CTFtime team.All tasks and writeups are copyrighted by their respective authors,
+9986-bin,23,Hosting provided by Transdata.,
+9986-bin,24,"<script src=""/static/bootstrap/js/bootstrap-scrollspy.js""></script>",
+9986-bin,25,"<script src=""/static/bootstrap/js/bootstrap-carousel.js""></script>",

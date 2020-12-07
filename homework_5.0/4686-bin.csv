@@ -1,0 +1,78 @@
+4686-bin,1,Skip to content,
+4686-bin,2,Sign up,
+4686-bin,3,Hosting,
+4686-bin,4,Explore,
+4686-bin,5,Explore GitHub →,
+4686-bin,6,Learn & contribute,
+4686-bin,7,Learning Lab,
+4686-bin,8,Connect with others,
+4686-bin,9,Compare plans,
+4686-bin,10,Jump to,
+4686-bin,11,Jump to,
+4686-bin,12,Jump to,
+4686-bin,13,Sign in,
+4686-bin,14,Sign up,
+4686-bin,15,Watch,
+4686-bin,16,Fork,
+4686-bin,17,Pull requests,
+4686-bin,18,Pull requests,
+4686-bin,19,Go to file,
+4686-bin,20,Git stats,
+4686-bin,21,Failed to load latest commit information.,
+4686-bin,22,In the task we get access to some AES-CBC encryption service.,(I)
+4686-bin,23,"There was some debug mode avaialble which apparently could be used to extract some of the server code, but this was totally unnecessary.",(I)
+4686-bin,24,If we send some payload we get encrypted results.,(A) 22
+4686-bin,25,"It's quite easy to notice that we get much more data, which means there has to be prefix or suffix added to our data.",(I)
+4686-bin,26,"It can't be just PKCS padding because padding never exceeds a single block, and here we had more.",(I) 25
+4686-bin,27,"We quickly realise that there is no prefix to the data, simply by observing when encrypted block gets ""fixed"".",(I) 26
+4686-bin,28,"It happens after we provide exactly 16 bytes (so a full block), which means there can be no static prefix.",(I)
+4686-bin,29,"If there was some static prefix added, the block would get a ""fixed"" value after providing less characters (until the block boundary is filled).",(I)
+4686-bin,30,So we have a long suffix added to the payload before encryption.,"(A) 27,28,29"
+4686-bin,31,It's quite clear that we should check this suffix.,(I)
+4686-bin,32,"We wrote about this a few times, and the technique is quite basic:",
+4686-bin,33,We send data so that first character of padding is the last character in a certain block.,(A) 31
+4686-bin,34,We remember the encrypted version of this block (which is [AAAA...AAS] where S is the secret padding byte),(A) 33
+4686-bin,35,"We encrypt many blocks with this last byte set to different values, so [AAAA...AAa], [AAAA...AAb], [AAAA...AAc]...",(A) 34
+4686-bin,36,If the block from 2) matches block from 3) it means we know the value of the secret byte!,(A) 35
+4686-bin,37,"We perform this again, this time sending our random filling bytes shorter by 1 byte, so that we get encrypted [AAAA...AAKS] where K is the padding byte we already know from 4) and S is another secret byte we want to know.",(A) 36
+4686-bin,38,We used a script:,
+4686-bin,39,"url = ""boxesofballots.pwn.republican""",
+4686-bin,40,try:,
+4686-bin,41,"encrypted = chunk(blackbox_encrypt(test), 32)[3]",
+4686-bin,42,if correct == encrypted:,
+4686-bin,43,pass,
+4686-bin,44,And got the flag: flag{Source_iz_4_noobs},
+4686-bin,45,W zadaniu dostajemy dostęp do serwera szyfrującego AES-CBC.,
+4686-bin,46,"Dostępny był jakis debug mode który pozwalał poznać część kodu serwera za pomocą wywoływania błędów, ale nie było nam to w ogóle potrzebne.",
+4686-bin,47,"Nie może to być sam padding PKCS bo ten nigdy nie przekracza 1 bloku, a u nas było więcej.",
+4686-bin,48,Mamy więc długi suffix dodany do danych przed szyfrowaniem.,
+4686-bin,49,Pisaliśmy o tym kilka razy i technika jest dość prosta:,
+4686-bin,50,Jeśli blok z 2) pokrywa się z blokiem z 3) oznacza to że znamy sekretny bajt!,
+4686-bin,51,"Powtarzamy to kolejny raz, tym razem skracając nasz payload o 1 znak więc dostajemy szyfrogram dla [AAAA...AAKS] gdzie K to bajt który już znamy z 4) a S to kolejny sekretny bajt który chcemy poznać.ret byte we want to know.",
+4686-bin,52,"url = ""boxesofballots.pwn.republican""",
+4686-bin,53,try:,
+4686-bin,54,"encrypted = chunk(blackbox_encrypt(test), 32)[3]",
+4686-bin,55,if correct == encrypted:,
+4686-bin,56,pass,
+4686-bin,57,I dostaliśmy flagę: flag{Source_iz_4_noobs},
+4686-bin,58,Help,
+4686-bin,59,You can't perform that action at this time.,
+4686-bin,60,You signed in with another tab or window,
+4686-bin,61,Reload to refresh your session.,
+4686-bin,62,You signed out in another tab or window,
+4686-bin,63,Reload to refresh your session.,
+4686-bin,64,We use optional third-party analytics cookies to understand how you use GitHub.com so we can build better products.,
+4686-bin,65,Learn more.,
+4686-bin,66,Accept,
+4686-bin,67,Reject,
+4686-bin,68,We use optional third-party analytics cookies to understand how you use GitHub.com so we can build better products.,
+4686-bin,69,You can always update your selection by clicking Cookie Preferences at the bottom of the page.,
+4686-bin,70,"For more information, see our Privacy Statement.",
+4686-bin,71,"We use essential cookies to perform essential website functions, e.g",
+4686-bin,72,they're used to log you in.,
+4686-bin,73,Learn more,
+4686-bin,74,"We use analytics cookies to understand how you use our websites so we can make them better, e.g",
+4686-bin,75,they're used to gather information about the pages you visit and how many clicks you need to accomplish a task.,
+4686-bin,76,Learn more,
+4686-bin,77,Accept,
+4686-bin,78,Reject,
